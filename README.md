@@ -74,6 +74,19 @@
 <h2 align="center">Dataset Structure</h2>
 <body>The dataset consists of raw transactional logs from a UK-based online retailer with over <strong>500,000 rows</strong>. After cleaning (removing missing Customer IDs and filtering cancellations), data was aggregated into RFM metrics per customer.</body>
 
+<h2 align="center">Cluster Sizes & Share of Revenue</h2>
+
+Re-running the same cleaning rules and K-Means model (k=4, `random_state=42`) on the raw [UCI Online Retail](https://archive.ics.uci.edu/dataset/352/online+retail) file with `rebuild_rfm.py`: 541,909 raw rows → 392,689 clean rows → **4,338 customers**, £8.89M total spend. Amounts are in pounds sterling (£).
+
+| Segment | Customers | % of customers | Avg days since last order | Avg orders | Avg spend | % of revenue |
+|---|---:|---:|---:|---:|---:|---:|
+| Champions | 718 | 16.6% | 12 | 13.6 | £8,011 | **64.7%** |
+| Loyalists | 1,174 | 27.1% | 65 | 4.2 | £1,823 | 24.1% |
+| New / Recent | 897 | 20.7% | 23 | 1.9 | £486 | 4.9% |
+| At-Risk | 1,549 | 35.7% | 192 | 1.4 | £361 | 6.3% |
+
+Champions and Loyalists are 44% of customers but 89% of revenue. K-Means cluster numbers are arbitrary, so segment names are assigned from each cluster's averages. To reproduce: `python3 rebuild_rfm.py "Online Retail.xlsx"` (needs `pandas`, `openpyxl`, `scikit-learn`). `missing_step.sql` adds the `cleaned_retail_data` table that the RFM queries in `sql_scripts.sql` read from.
+
 <h1 align="center">Insights Deep-Dive</h1>
 
 <table align="center">
@@ -81,15 +94,15 @@
     <h1 align="center">RFM Segmentation</h1>
     <td width="1000">
       <h3 align="center">Elbow Method</h3>
-      <img width="300" src="https://github.com/h0otism/Customer-Segmentation-Retail-Analysis/blob/main/visuals:/elbow_plot.png?raw=true">
+      <img width="300" src="https://github.com/m1nhn9/Customer-Segmentation-Retail-Analysis/blob/main/visuals:/elbow_plot.png?raw=true">
     </td>
     <td width="1000">
       <h3 align="center">Snake Plot</h3>
-      <img width="300" src="https://github.com/h0otism/Customer-Segmentation-Retail-Analysis/blob/main/visuals:/snake_plot.png?raw=true">
+      <img width="300" src="https://github.com/m1nhn9/Customer-Segmentation-Retail-Analysis/blob/main/visuals:/snake_plot.png?raw=true">
     </td>
     <td width="1000">
       <h3 align="center">Attribute Heatmap</h3>
-      <img width="300" src="https://github.com/h0otism/Customer-Segmentation-Retail-Analysis/blob/main/visuals:/cluster_heatmap.png?raw=true">
+      <img width="300" src="https://github.com/m1nhn9/Customer-Segmentation-Retail-Analysis/blob/main/visuals:/cluster_heatmap.png?raw=true">
     </td>
   </tr>
 </table>
