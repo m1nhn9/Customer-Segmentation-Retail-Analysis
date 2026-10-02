@@ -1,0 +1,302 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "rtlActions00v01",
+  "position": {
+    "x": 24,
+    "y": 72,
+    "z": 1,
+    "width": 1232,
+    "height": 400,
+    "tabOrder": 1
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "segmentation_transactions_joined"
+                    }
+                  },
+                  "Property": "segment"
+                }
+              },
+              "queryRef": "segmentation_transactions_joined.segment",
+              "nativeQueryRef": "segment",
+              "displayName": "Segment"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "segmentation_transactions_joined"
+                    }
+                  },
+                  "Property": "Customers"
+                }
+              },
+              "queryRef": "segmentation_transactions_joined.Customers",
+              "nativeQueryRef": "Customers"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "segmentation_transactions_joined"
+                    }
+                  },
+                  "Property": "% of Customers"
+                }
+              },
+              "queryRef": "segmentation_transactions_joined.% of Customers",
+              "nativeQueryRef": "% of Customers",
+              "displayName": "% of customers"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "segmentation_transactions_joined"
+                    }
+                  },
+                  "Property": "Revenue"
+                }
+              },
+              "queryRef": "segmentation_transactions_joined.Revenue",
+              "nativeQueryRef": "Revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "segmentation_transactions_joined"
+                    }
+                  },
+                  "Property": "% of Revenue"
+                }
+              },
+              "queryRef": "segmentation_transactions_joined.% of Revenue",
+              "nativeQueryRef": "% of Revenue",
+              "displayName": "% of revenue"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "segmentation_transactions_joined"
+                    }
+                  },
+                  "Property": "Avg Recency (days)"
+                }
+              },
+              "queryRef": "segmentation_transactions_joined.Avg Recency (days)",
+              "nativeQueryRef": "Avg Recency (days)",
+              "displayName": "Avg recency (days)"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "segmentation_transactions_joined"
+                    }
+                  },
+                  "Property": "Avg Orders"
+                }
+              },
+              "queryRef": "segmentation_transactions_joined.Avg Orders",
+              "nativeQueryRef": "Avg Orders",
+              "displayName": "Avg orders"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "segmentation_transactions_joined"
+                    }
+                  },
+                  "Property": "Avg Spend"
+                }
+              },
+              "queryRef": "segmentation_transactions_joined.Avg Spend",
+              "nativeQueryRef": "Avg Spend",
+              "displayName": "Avg spend"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "segmentation_transactions_joined"
+                    }
+                  },
+                  "Property": "Recommended Action"
+                }
+              },
+              "queryRef": "segmentation_transactions_joined.Recommended Action",
+              "nativeQueryRef": "Recommended Action",
+              "displayName": "Recommended action"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "segmentation_transactions_joined"
+                  }
+                },
+                "Property": "% of Revenue"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": false
+      }
+    },
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "values": [
+        {
+          "properties": {
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10.0D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnHeaders": [
+        {
+          "properties": {
+            "wordWrap": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "10.0D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "total": [
+        {
+          "properties": {
+            "totals": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "columnWidth": [
+        {
+          "properties": {
+            "value": {
+              "expr": {
+                "Literal": {
+                  "Value": "420.0D"
+                }
+              }
+            }
+          },
+          "selector": {
+            "metadata": "segmentation_transactions_joined.Recommended Action"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Segment action table'"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "14.0D"
+                }
+              }
+            },
+            "bold": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "subTitle": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

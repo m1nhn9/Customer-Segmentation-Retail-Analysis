@@ -1,0 +1,5 @@
+relationship 8b0bece7-7076-4441-b953-d8865178fb72
+	joinOnDateBehavior: datePartOnly
+	fromColumn: segmentation_transactions_joined.invoice_date
+	toColumn: LocalDateTable_5a42beea-2f07-4af8-90e7-2e8386db9fff.Date
+

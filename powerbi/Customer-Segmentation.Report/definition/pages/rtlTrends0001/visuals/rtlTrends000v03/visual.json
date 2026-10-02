@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.13.0/schema.json",
+  "name": "rtlTrends000v03",
+  "position": {
+    "x": 24,
+    "y": 652,
+    "z": 3,
+    "width": 1232,
+    "height": 44,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "textbox",
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Dec 2011 is a partial month (data ends 9 Dec 2011).",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#605E5C",
+                      "fontStyle": "italic"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

@@ -1,0 +1,5 @@
+/// Folder that holds clean_transactions.csv and rfm_segments.csv. Must end with a path separator.
+expression DataFolder = "C:\PowerBI\data\" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 6f1d2c4e-0d5b-4b7a-9a51-858085489681
+
+	annotation PBI_ResultType = Text

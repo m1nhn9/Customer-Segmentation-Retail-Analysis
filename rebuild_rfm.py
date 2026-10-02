@@ -7,7 +7,8 @@ Raw data: "Online Retail" dataset, UCI Machine Learning Repository
   https://archive.ics.uci.edu/dataset/352/online+retail   (file: Online Retail.xlsx)
 
 Run:  python3 rebuild_rfm.py "Online Retail.xlsx"
-Writes: rfm_for_python.csv, cluster_profile.csv
+Writes: rfm_for_python.csv, cluster_profile.csv,
+        rfm_segments.csv and clean_transactions.csv (inputs for the Power BI project in powerbi/)
 """
 import sys
 
@@ -67,3 +68,24 @@ p.to_csv("cluster_profile.csv")
 print("\nCluster profile (cluster numbers are arbitrary - name them from the averages):")
 print(p.to_string())
 print(f"\nOverall average spend per customer: £{rfm['monetary'].mean():,.0f}")
+
+# 7. Power BI exports. Name segments from the averages, not the arbitrary cluster numbers:
+# highest spend = Champions; of the rest, longest since last order = At-Risk;
+# of the last two, higher spend = Loyalists, lower = New / Recent.
+rest = p.iloc[1:]
+at_risk = rest["avg_recency_days"].idxmax()
+loyal, new = rest.drop(at_risk).sort_values("avg_spend_gbp", ascending=False).index
+names = {p.index[0]: "Champions", loyal: "Loyalists", new: "New / Recent", at_risk: "At-Risk"}
+rfm["segment"] = rfm["Cluster"].map(names)
+rfm.to_csv("rfm_segments.csv", index=False)
+
+tx = df.rename(columns={"InvoiceNo": "invoice_no", "StockCode": "stock_code", "Description": "description",
+                        "Quantity": "quantity", "InvoiceDate": "invoice_date", "UnitPrice": "unit_price",
+                        "CustomerID": "customer_id", "Country": "country"})
+tx["customer_id"] = tx["customer_id"].astype(int)
+tx["line_item_total"] = tx["line_item_total"].round(2)
+tx = tx[["invoice_no", "stock_code", "description", "quantity", "invoice_date", "unit_price",
+         "customer_id", "country", "line_item_total"]]
+tx.to_csv("clean_transactions.csv", index=False)
+print(f"\nPower BI files: rfm_segments.csv ({len(rfm):,} customers), clean_transactions.csv ({len(tx):,} rows)")
+print(rfm["segment"].value_counts().to_string())

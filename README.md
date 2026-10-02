@@ -87,6 +87,12 @@ Re-running the same cleaning rules and K-Means model (k=4, `random_state=42`) on
 
 Champions and Loyalists are 44% of customers but 89% of revenue. K-Means cluster numbers are arbitrary, so segment names are assigned from each cluster's averages. To reproduce: `python3 rebuild_rfm.py "Online Retail.xlsx"` (needs `pandas`, `openpyxl`, `scikit-learn`). `missing_step.sql` adds the `cleaned_retail_data` table that the RFM queries in `sql_scripts.sql` read from.
 
+<h2 align="center">Power BI Dashboard</h2>
+
+![Customer Segmentation Power BI dashboard](powerbi/dashboard.png)
+
+The [`powerbi/`](powerbi) folder has a Power BI project built on the same segments. It holds a one-page dashboard (KPIs, segment/country/month filters, monthly revenue by segment, customer vs revenue share, top countries, a customer list and the segment action plan), detail pages and an Insights page. `rebuild_rfm.py` writes the two CSVs it loads; see [`powerbi/README.md`](powerbi/README.md) for how to open it.
+
 <h1 align="center">Insights Deep-Dive</h1>
 
 <table align="center">

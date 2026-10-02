@@ -1,0 +1,214 @@
+table segmentation_transactions_joined
+	lineageTag: e7c9bb37-898f-42b9-bb7a-9fe82bfae254
+
+	measure Revenue = SUM(segmentation_transactions_joined[line_item_total])
+		formatString: £#,0
+		lineageTag: ed147497-b4ba-48ab-a22b-800244d3c7be
+
+	measure Customers = DISTINCTCOUNT(segmentation_transactions_joined[customer_id])
+		formatString: #,0
+		lineageTag: eb418895-f387-4908-b861-10698a5eb15f
+
+	measure '% of Revenue' = DIVIDE([Revenue], CALCULATE([Revenue], ALL(segmentation_transactions_joined[segment])))
+		formatString: 0.0%
+		lineageTag: 4fc12c39-f45e-464a-9cf8-e6ef4e0f6c73
+
+	measure '% of Customers' = DIVIDE([Customers], CALCULATE([Customers], ALL(segmentation_transactions_joined[segment])))
+		formatString: 0.0%
+		lineageTag: 65ddda7e-ec58-4edb-9bfc-9722ae75b789
+
+	measure 'Revenue per Customer' = DIVIDE([Revenue], [Customers])
+		formatString: £#,0
+		lineageTag: c73c5008-00f3-43c3-a554-353bab5e110e
+
+	measure 'Avg Recency (days)' = AVERAGEX(VALUES(segmentation_transactions_joined[customer_id]), CALCULATE(MAX(segmentation_transactions_joined[recency])))
+		formatString: #,0
+		lineageTag: 239284d8-f78a-4fec-b13d-b5cecc1568eb
+
+	measure 'Avg Orders' = AVERAGEX(VALUES(segmentation_transactions_joined[customer_id]), CALCULATE(MAX(segmentation_transactions_joined[frequency])))
+		formatString: #,0.0
+		lineageTag: 0b5faf99-cafc-4f04-b186-3591983dbcf0
+
+	measure 'Avg Spend' = AVERAGEX(VALUES(segmentation_transactions_joined[customer_id]), CALCULATE(MAX(segmentation_transactions_joined[monetary])))
+		formatString: £#,0
+		lineageTag: 5ac4e4f1-9902-4e76-ba28-a61b8c8884dc
+
+	measure 'Recommended Action' = SWITCH(SELECTEDVALUE(segmentation_transactions_joined[segment]), "Champions", "Reward and retain: VIP perks, early access, referral asks", "Loyalists", "Upsell and cross-sell; nudge toward Champion tier", "New / Recent", "Onboard: welcome series and a second-purchase incentive", "At-Risk", "Win back: personalised reactivation offers before they lapse")
+		lineageTag: 7f6c6fd8-523d-49bd-984f-7afe6605e0ce
+
+	measure 'Revenue (Top 10 Countries)' =
+			VAR r = RANKX(ALLSELECTED(segmentation_transactions_joined[country]), [Revenue], , DESC)
+			RETURN IF(r <= 10, [Revenue])
+		formatString: £#,0
+		lineageTag: f505ccc1-c2eb-4d62-86ce-667e51241557
+
+	measure 'Champions Revenue Share' = CALCULATE([% of Revenue], segmentation_transactions_joined[segment] = "Champions")
+		formatString: 0.0%
+		lineageTag: 875a8dd8-19b4-4d53-b41d-9f742382de7c
+
+	measure 'At-Risk Customers' = CALCULATE([Customers], segmentation_transactions_joined[segment] = "At-Risk")
+		formatString: #,0
+		lineageTag: a1cc6c79-5c4c-4ff4-ac66-192a58eaa24a
+
+	measure 'Customer Spend' = MAX(segmentation_transactions_joined[monetary])
+		formatString: £#,0
+		lineageTag: 21c59c5a-18da-4928-9e42-fae0a8e799ab
+
+	measure 'Days Since Last Purchase' = MAX(segmentation_transactions_joined[recency])
+		formatString: #,0
+		lineageTag: 54d9ece5-04c7-41ff-871c-f81ff74b2fab
+
+	measure Orders = MAX(segmentation_transactions_joined[frequency])
+		formatString: #,0
+		lineageTag: f40996c3-09df-4cda-91eb-02ff4a3fb345
+
+	column invoice_no
+		dataType: int64
+		formatString: 0
+		lineageTag: 6c08ea58-f167-4033-9028-a984b07a74b8
+		summarizeBy: sum
+		sourceColumn: invoice_no
+
+		annotation SummarizationSetBy = Automatic
+
+	column stock_code
+		dataType: string
+		lineageTag: 88df9805-cad5-4cc6-846a-0f2517df023b
+		summarizeBy: none
+		sourceColumn: stock_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column description
+		dataType: string
+		lineageTag: cd6808c4-03b2-4687-bad3-3ab1c258687d
+		summarizeBy: none
+		sourceColumn: description
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: int64
+		formatString: 0
+		lineageTag: a30ceb27-df60-4cbf-8025-db3a1d0fe536
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column invoice_date
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 176d02f2-c12e-4348-9883-f6f527353805
+		summarizeBy: none
+		sourceColumn: invoice_date
+
+		variation Variation
+			isDefault
+			relationship: 8b0bece7-7076-4441-b953-d8865178fb72
+			defaultHierarchy: LocalDateTable_5a42beea-2f07-4af8-90e7-2e8386db9fff.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_price
+		dataType: double
+		lineageTag: 9469499c-26b2-442e-a40c-7b0b69b7cb82
+		summarizeBy: sum
+		sourceColumn: unit_price
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column customer_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 0f8da591-962a-487d-bc94-73cbf0484afd
+		summarizeBy: sum
+		sourceColumn: customer_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column country
+		dataType: string
+		lineageTag: 5e31dcb3-e425-4f9c-a15c-4eeb4100933a
+		summarizeBy: none
+		sourceColumn: country
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_item_total
+		dataType: double
+		lineageTag: 074d0af0-4e01-45ce-801c-990b0cbc14dd
+		summarizeBy: sum
+		sourceColumn: line_item_total
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column recency
+		dataType: int64
+		formatString: 0
+		lineageTag: b89e6b9d-6747-4180-9a31-6a5dac6030c9
+		summarizeBy: sum
+		sourceColumn: recency
+
+		annotation SummarizationSetBy = Automatic
+
+	column frequency
+		dataType: int64
+		formatString: 0
+		lineageTag: 732c1692-e0a5-4f6d-b2ed-9c39f65be2cc
+		summarizeBy: sum
+		sourceColumn: frequency
+
+		annotation SummarizationSetBy = Automatic
+
+	column monetary
+		dataType: double
+		lineageTag: d301a06e-841a-4364-9875-a5cfea62b646
+		summarizeBy: sum
+		sourceColumn: monetary
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Cluster
+		dataType: int64
+		formatString: 0
+		lineageTag: c9abe0df-6082-4277-86a6-722af24f105d
+		summarizeBy: sum
+		sourceColumn: Cluster
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment
+		dataType: string
+		lineageTag: 89d3b81c-d2c2-4d1c-b758-e7ceccc70077
+		summarizeBy: none
+		sourceColumn: segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Invoice Month' = DATE(YEAR([invoice_date]), MONTH([invoice_date]), 1)
+		dataType: dateTime
+		formatString: mmm yyyy
+		lineageTag: 0c2d1c1b-e44c-4342-812b-29d66f460414
+		summarizeBy: none
+
+	partition segmentation_transactions_joined = m
+		mode: import
+		source =
+				  let
+				    Transactions = Table.PromoteHeaders(Csv.Document(File.Contents(DataFolder & "clean_transactions.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]), [PromoteAllScalars = true]),
+				    Segments = Table.PromoteHeaders(Csv.Document(File.Contents(DataFolder & "rfm_segments.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]), [PromoteAllScalars = true]),
+				    Joined = Table.NestedJoin(Transactions, {"customer_id"}, Segments, {"customer_id"}, "rfm", JoinKind.Inner),
+				    Expanded = Table.ExpandTableColumn(Joined, "rfm", {"recency", "frequency", "monetary", "Cluster", "segment"}),
+				    #"Changed column type" = Table.TransformColumnTypes(Expanded, {{"invoice_no", Int64.Type}, {"stock_code", type text}, {"description", type text}, {"quantity", Int64.Type}, {"invoice_date", type datetime}, {"unit_price", type number}, {"customer_id", Int64.Type}, {"country", type text}, {"line_item_total", type number}, {"recency", Int64.Type}, {"frequency", Int64.Type}, {"monetary", type number}, {"Cluster", Int64.Type}, {"segment", type text}})
+				  in
+				    #"Changed column type"
+
+	annotation PBI_ResultType = Table
+
